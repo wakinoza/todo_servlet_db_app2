@@ -1,0 +1,35 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import bean.User;
+
+public class UserDAO extends DAO {
+  public User serch(String name, String password) throws Exception {
+    User user = null;
+
+    try (Connection con = getConnection()) {
+      PreparedStatement st =
+          con.prepareStatement("SELECT * FROM todo_users WHERE name=? AND password=?");
+
+      st.setString(1, name);
+      st.setString(2, password);
+
+      try (ResultSet rs = st.executeQuery()) {
+        if (rs.next()) {
+          user = new User();
+          user.setId(rs.getInt("id"));
+          user.setName(rs.getString("name"));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    }
+
+    return user;
+
+  }
+
+}
