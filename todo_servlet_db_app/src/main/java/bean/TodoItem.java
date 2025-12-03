@@ -1,15 +1,13 @@
 package bean;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import model.Progress;
 
 /**
  * . todo情報を保持するクラス
  */
 public class TodoItem {
-  /** . JSONファイルのファイル名 */
-  private String fileName;
+  /** . id */
+  private String id;
 
   /** . テキスト入力欄の文字列情報 */
   private String text;
@@ -29,16 +27,13 @@ public class TodoItem {
    * @param text テキスト入力欄の文字列情報
    */
   public TodoItem(String text) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-    LocalDateTime now = LocalDateTime.now();
-    this.fileName = formatter.format(now);
     this.text = text;
     this.progress = Progress.PENDING;
   }
 
   /** . getterメソッド */
-  public String getFileName() {
-    return this.fileName;
+  public String getId() {
+    return this.id;
   }
 
   public String getText() {
@@ -50,8 +45,8 @@ public class TodoItem {
   }
 
   /** . setterメソット */
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public void setText(String text) {
