@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Context>  
-  <Resource      
-    name="jdbc/test_db"      
-    auth="Container"      
-    type="javax.sql.DataSource"      
-    driverClassName="com.mysql.cj.jdbc.Driver"      
-    url="jdbc:mysql://localhost:3306/todo_db?serverTimezone=JST"      
-    username="todo_user"      
-    password="todo_user"        
-    />
+<Context>
+  <Resource
+    name="jdbc/test_db"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="com.mysql.cj.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/todo_db?serverTimezone=JST"
+    username="todo_user"
+    password="todo_user"
+   />
 </Context>
