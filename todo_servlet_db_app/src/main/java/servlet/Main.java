@@ -14,8 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import bean.TodoItem;
 import bean.User;
-import model.TodoItemLogic;
-
+import dao.TodoItemDAO;
 
 /**
  * . メイン画面の処理を司るサーブレット
@@ -63,22 +62,24 @@ public class Main extends HttpServlet {
     List<TodoItem> todoItemList = (List<TodoItem>) application.getAttribute("todoItemList");
     String text = request.getParameter("text");
     String action = request.getParameter("action");
-    TodoItemLogic todoItemLogic = new TodoItemLogic();
+    String id = request.getParameter("id");
+    TodoItemDAO todoItemDAO = new TodoItemDAO();
 
     if ("make".equals(action)) {
       if (text != null && !text.isEmpty()) {
         TodoItem todoItem = new TodoItem(text);
-        todoItemLogic.add(todoItem, todoItemList);
+        todoItemDAO.add(todoItem);
       } else {
         request.setAttribute("errorMsg", "Todoを入力してください。");
       }
     } else {
-      todoItemLogic.updateProgress(action, todoItemList);
+      todoItemDAO.updateProgress(id);
 
     }
+    todoItemList = todoItemDAO.getAllTodoItem();
     application.setAttribute("todoItemList", todoItemList);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
-    dispatcher.forward(request, response);
+
+    request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
   }
 
 }
