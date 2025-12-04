@@ -13,7 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import bean.TodoItem;
 import bean.User;
-import dao.TodoItemDAO;
+import model.TodoItemLogic;
+
 
 /**
  * . メイン画面の処理を司るサーブレット
@@ -56,31 +57,31 @@ public class Main extends HttpServlet {
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
     ServletContext application = this.getServletContext();
-    List<TodoItem> todoItemList;
+
     String text = request.getParameter("text");
     String action = request.getParameter("action");
     String id = request.getParameter("id");
-    TodoItemDAO todoItemDAO = new TodoItemDAO();
+    TodoItemLogic todoItemLogic = new TodoItemLogic();
 
-    try {
-      if ("make".equals(action)) {
-        if (text != null && !text.isEmpty()) {
-          TodoItem todoItem = new TodoItem(text);
-          todoItemDAO.add(todoItem);
-        } else {
-          request.setAttribute("errorMsg", "Todoを入力してください。");
-        }
+    if ("crate".equals(action)) {
+      TodoItem todoItem = todoItemLogic.create(text);
+      if (todoItem == null) {
+        request.setAttribute("errorMsg", "Todoを入力してください。");
       } else {
-        todoItemDAO.updateProgress(id);
-
+        if (!todoItemLogic.add(todoItem)) {
+          request.setAttribute("errorMsg", "Todoの追加に失敗しました。");
+        }
       }
-      todoItemList = todoItemDAO.getAllTodoItem();
-      application.setAttribute("todoItemList", todoItemList);
 
-    } catch (Exception e) {
-      e.printStackTrace();
+    } else {
+      if (todoItemLogic.updateProgress(id)) {
+        request.setAttribute("errorMsg", "進捗の更新に失敗しました。");
+      }
+
     }
 
+    List<TodoItem> todoItemList = todoItemLogic.getAllTodoItem();
+    application.setAttribute("todoItemList", todoItemList);
     request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
   }
 
