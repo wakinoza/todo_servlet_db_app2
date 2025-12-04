@@ -54,30 +54,34 @@ public class Main extends HttpServlet {
    * . @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
     ServletContext application = this.getServletContext();
-    List<TodoItem> todoItemList = (List<TodoItem>) application.getAttribute("todoItemList");
+    List<TodoItem> todoItemList;
     String text = request.getParameter("text");
     String action = request.getParameter("action");
     String id = request.getParameter("id");
     TodoItemDAO todoItemDAO = new TodoItemDAO();
 
-    if ("make".equals(action)) {
-      if (text != null && !text.isEmpty()) {
-        TodoItem todoItem = new TodoItem(text);
-        todoItemDAO.add(todoItem);
+    try {
+      if ("make".equals(action)) {
+        if (text != null && !text.isEmpty()) {
+          TodoItem todoItem = new TodoItem(text);
+          todoItemDAO.add(todoItem);
+        } else {
+          request.setAttribute("errorMsg", "Todoを入力してください。");
+        }
       } else {
-        request.setAttribute("errorMsg", "Todoを入力してください。");
-      }
-    } else {
-      todoItemDAO.updateProgress(id);
+        todoItemDAO.updateProgress(id);
 
+      }
+      todoItemList = todoItemDAO.getAllTodoItem();
+      application.setAttribute("todoItemList", todoItemList);
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    todoItemList = todoItemDAO.getAllTodoItem();
-    application.setAttribute("todoItemList", todoItemList);
 
     request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
   }
