@@ -1,6 +1,5 @@
 package bean;
 
-import model.Progress;
 
 /**
  * . todo情報を保持するクラス
@@ -13,7 +12,7 @@ public class TodoItem {
   private String text;
 
   /** . 進捗情報を文字する列挙子 */
-  private Progress progress;
+  private String progress;
 
   /**
    * . 引数なしのコンストラクタ
@@ -28,7 +27,7 @@ public class TodoItem {
    */
   public TodoItem(String text) {
     this.text = text;
-    this.progress = Progress.PENDING;
+    this.progress = "未実施";
   }
 
   /** . getterメソッド */
@@ -40,7 +39,7 @@ public class TodoItem {
     return this.text;
   }
 
-  public Progress getProgress() {
+  public String getProgress() {
     return this.progress;
   }
 
@@ -53,7 +52,7 @@ public class TodoItem {
     this.text = text;
   }
 
-  public void setProgress(Progress progress) {
+  public void setProgress(String progress) {
     this.progress = progress;
   }
 }
