@@ -23,8 +23,8 @@ public class UserDAO extends DAO {
           user.setName(rs.getString("name"));
         }
       }
-    } catch (Exception e1) {
-      e1.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return user;

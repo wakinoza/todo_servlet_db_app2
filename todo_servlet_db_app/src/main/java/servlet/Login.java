@@ -33,7 +33,6 @@ public class Login extends HttpServlet {
     User loginUser = null;
     loginUser = loginLogic.serch(name, pass);
 
-
     if (loginUser != null) {
       HttpSession session = request.getSession();
       session.setAttribute("loginUser", loginUser);
