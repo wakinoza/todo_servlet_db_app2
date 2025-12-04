@@ -4,7 +4,6 @@ package servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,8 +43,7 @@ public class Main extends HttpServlet {
       response.sendRedirect("index.jsp");
 
     } else {
-      RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
-      dispatcher.forward(request, response);
+      request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
     }
 
   }
