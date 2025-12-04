@@ -55,7 +55,7 @@ String completed = "完了済";
           <%= in_progress %> : ${todoItem.text}
         </span>
         <form action="Main" method="post" style="display:inline-block;">
-          <input type="hidden" name="action" value="${todoItem.id}">
+          <input type="hidden" name="id" value="${todoItem.id}">
           <button type="submit" style="background:blue; border:none; border-radius:5px; color:white; cursor:pointer; padding:5px; ">進捗を更新</button>
         </form>
       </c:when>
@@ -65,7 +65,7 @@ String completed = "完了済";
           <%= completed %> : ${todoItem.text}
         </span>       
         <form action="Main" method="post" style="display:inline-block;">
-          <input type="hidden" name="action" value="${todoItem.id}">
+          <input type="hidden" name="id" value="${todoItem.id}">
           <button type="submit" style="background:orange; border:none; border-radius:5px; cursor:pointer; padding:5px; ">todoを削除</button>
         </form>
       </c:otherwise>
