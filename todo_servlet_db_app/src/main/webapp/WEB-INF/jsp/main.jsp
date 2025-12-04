@@ -6,9 +6,6 @@
 <%@ page import="model.TodoItem, model.Progress, java.util.List" %>
 <% 
 String errorMsg = (String )request.getAttribute("errorMsg");
-String pending = "未実施";
-String in_progress = "実施中";
-String completed = "完了済";
 %>
 
 <h1>Todo管理メインページ</h1>
@@ -17,7 +14,7 @@ String completed = "完了済";
 <a href="Logout">ログアウトする</a>
 </p>
 
-<form action="Main?action=make" method="post">
+<form action="Main?action=create" method="post">
   <input type="text" name="text">
   <input type="submit" value="Todoを新規追加">
 </form>
