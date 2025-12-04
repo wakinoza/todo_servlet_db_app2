@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import bean.User;
 
 public class UserDAO extends DAO {
-  public User serch(String name, String password) throws Exception {
+  public User select(String name, String password) {
     User user = null;
 
     try (Connection con = getConnection()) {
@@ -23,9 +23,8 @@ public class UserDAO extends DAO {
           user.setName(rs.getString("name"));
         }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw e;
+    } catch (Exception e1) {
+      e1.printStackTrace();
     }
 
     return user;

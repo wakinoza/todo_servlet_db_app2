@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import bean.User;
-import dao.UserDAO;;
+import model.LoginLogic;;
 
 
 /**
@@ -29,13 +29,10 @@ public class Login extends HttpServlet {
     request.setCharacterEncoding("UTF-8");
     String name = request.getParameter("name");
     String pass = request.getParameter("pass");
-    UserDAO dao = new UserDAO();
+    LoginLogic loginLogic = new LoginLogic();
     User loginUser = null;
-    try {
-      loginUser = dao.serch(name, pass);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    loginUser = loginLogic.serch(name, pass);
+
 
     if (loginUser != null) {
       HttpSession session = request.getSession();
