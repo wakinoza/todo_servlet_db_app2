@@ -63,7 +63,7 @@ public class Main extends HttpServlet {
     String id = request.getParameter("id");
     TodoItemLogic todoItemLogic = new TodoItemLogic();
 
-    if ("crate".equals(action)) {
+    if ("create".equals(action)) {
       TodoItem todoItem = todoItemLogic.create(text);
       if (todoItem == null) {
         request.setAttribute("errorMsg", "Todoを入力してください。");

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ include file="header.jsp" %>
 
-<%@ page import="model.TodoItem, model.Progress, java.util.List" %>
+<%@ page import="bean.TodoItem, java.util.List" %>
 <% 
 String errorMsg = (String )request.getAttribute("errorMsg");
 %>
