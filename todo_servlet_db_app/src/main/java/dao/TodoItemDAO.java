@@ -11,7 +11,7 @@ public class TodoItemDAO extends DAO {
 
   public boolean insert(TodoItem todoItem) {
     try (Connection con = getConnection()) {
-      String sql = "INSERT * INTO todoItems (text, progress) VALUES (?, ?)";
+      String sql = "INSERT INTO todoItems (text, progress) VALUES (?, ?)";
       PreparedStatement pStmt = con.prepareStatement(sql);
 
       pStmt.setString(1, todoItem.getText());
@@ -36,15 +36,20 @@ public class TodoItemDAO extends DAO {
 
       ResultSet rs = pStmt.executeQuery();
 
-      String result = rs.getString("progress");
       String nextProgress;
 
-      if (result.equals("未実施")) {
-        nextProgress = "実施中";
-      } else if (result.equals("実施中")) {
-        nextProgress = "完了済";
+      if (rs.next()) {
+        String result = rs.getString("progress");
+        if (result.equals("未実施")) {
+          nextProgress = "実施中";
+        } else if (result.equals("実施中")) {
+          nextProgress = "完了済";
+        } else {
+          return delete(id);
+        }
       } else {
-        return delete(id);
+
+        return false;
       }
 
       String sql2 = "UPDATE todoItems SET progress = ? WHERE id = ?";
