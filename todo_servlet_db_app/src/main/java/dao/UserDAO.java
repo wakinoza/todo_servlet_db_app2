@@ -6,15 +6,15 @@ import java.sql.ResultSet;
 import bean.User;
 
 public class UserDAO extends DAO {
-  public User select(String name, String password) {
+  public User select(String name, String pass) {
     User user = null;
 
     try (Connection con = getConnection()) {
       PreparedStatement st =
-          con.prepareStatement("SELECT * FROM todo_users WHERE name=? AND password=?");
+          con.prepareStatement("SELECT id, name FROM todo_users WHERE name=? AND password=?");
 
       st.setString(1, name);
-      st.setString(2, password);
+      st.setString(2, pass);
 
       try (ResultSet rs = st.executeQuery()) {
         if (rs.next()) {
