@@ -12,7 +12,7 @@ public class TodoItem {
   private String text;
 
   /** . 進捗情報を文字する列挙子 */
-  private String progress;
+  private String progress = "未実施";
 
   /**
    * . 引数なしのコンストラクタ
@@ -27,7 +27,6 @@ public class TodoItem {
    */
   public TodoItem(String text) {
     this.text = text;
-    this.progress = "未実施";
   }
 
   /** . getterメソッド */
