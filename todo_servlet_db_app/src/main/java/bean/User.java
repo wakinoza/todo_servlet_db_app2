@@ -6,7 +6,8 @@ import java.io.Serializable;
  * . ユーザー情報を保持するクラス
  */
 public class User implements Serializable {
-  /** .ユーザーID */
+
+  /** . ユーザーID */
   private int id;
 
   /** . ユーザー名 */
@@ -20,6 +21,9 @@ public class User implements Serializable {
    */
   public User() {}
 
+  /**
+   * . 引数ありのコンストラクタ
+   */
   public User(int id, String name, String pass) {
     this.id = id;
     this.name = name;
