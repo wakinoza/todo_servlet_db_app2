@@ -1,6 +1,5 @@
 package servlet;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import jakarta.servlet.http.HttpSession;
 import bean.TodoItem;
 import bean.User;
 import model.TodoItemLogic;
-
 
 /**
  * . メイン画面の処理を司るサーブレット
