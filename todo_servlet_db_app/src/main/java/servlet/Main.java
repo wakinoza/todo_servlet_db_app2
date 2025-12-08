@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,25 +24,26 @@ public class Main extends HttpServlet {
    * . @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    ServletContext application = this.getServletContext();
-    List<TodoItem> todoItemList = (List<TodoItem>) application.getAttribute("todoItemList");
 
-    if (todoItemList == null) {
-      todoItemList = new ArrayList<>();
-      application.setAttribute("todoItemList", todoItemList);
-    }
     HttpSession session = request.getSession();
     User loginUser = (User) session.getAttribute("loginUser");
 
     if (loginUser == null) {
       response.sendRedirect("index.jsp");
-
-    } else {
-      request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+      return;
     }
+
+    TodoItemLogic todoItemLogic = new TodoItemLogic();
+    List<TodoItem> todoItemList = todoItemLogic.getAllTodoItem();
+
+    if (todoItemList == null) {
+      todoItemList = new ArrayList<>();
+    }
+    request.setAttribute("todoItemList", todoItemList);
+    request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+
 
   }
 
@@ -54,7 +54,6 @@ public class Main extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
-    ServletContext application = this.getServletContext();
 
     String text = request.getParameter("text");
     String action = request.getParameter("action");
@@ -72,14 +71,14 @@ public class Main extends HttpServlet {
       }
 
     } else {
-      if (todoItemLogic.updateProgress(id)) {
+      if (!todoItemLogic.updateProgress(id)) {
         request.setAttribute("errorMsg", "進捗の更新に失敗しました。");
       }
 
     }
 
     List<TodoItem> todoItemList = todoItemLogic.getAllTodoItem();
-    application.setAttribute("todoItemList", todoItemList);
+    request.setAttribute("todoItemList", todoItemList);
     request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
   }
 
