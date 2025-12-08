@@ -5,7 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import bean.User;
 
+/** . todo_usersテーブルの操作を行うDAOクラス */
 public class UserDAO extends DAO {
+  /**
+   * . テーブルに指定されたUserが存在するかを確認するメソッド
+   *
+   * @param name ユーザー名
+   * @param pass パスワード
+   * @return 指定されたユーザーがいればそのUserインスタンスを、いなければnullを返す
+   */
   public User select(String name, String pass) {
     User user = null;
 
