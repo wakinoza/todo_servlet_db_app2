@@ -1,6 +1,5 @@
 package bean;
 
-
 /**
  * . todo情報を保持するクラス
  */
