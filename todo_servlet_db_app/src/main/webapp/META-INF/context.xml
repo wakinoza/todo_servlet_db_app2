@@ -5,7 +5,7 @@
     auth="Container"
     type="javax.sql.DataSource"
     driverClassName="com.mysql.cj.jdbc.Driver"
-    url="jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Tokyo"
+    url="jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
     username="todo_user"
     password="todo_user"
    />
