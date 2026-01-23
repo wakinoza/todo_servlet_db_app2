@@ -17,16 +17,14 @@ public class TodoItemDAO extends DAO {
    * @return 挿入操作が完了したがどうかを示す真偽値
    */
   public boolean insert(TodoItem todoItem) {
-    try (Connection con = getConnection()) {
+    try (Connection con = getWriteConnection()) {
       String sql = "INSERT INTO todoItems (text, progress) VALUES (?, ?)";
-      PreparedStatement ps = con.prepareStatement(sql);
+      try (PreparedStatement ps = con.prepareStatement(sql)) {
 
-      ps.setString(1, todoItem.getText());
-      ps.setString(2, todoItem.getProgress());
+        ps.setString(1, todoItem.getText());
+        ps.setString(2, todoItem.getProgress());
 
-      int result = ps.executeUpdate();
-      if (result != 1) {
-        return false;
+        return ps.executeUpdate() == 1;
       }
     } catch (Exception e) {
       e.printStackTrace();
