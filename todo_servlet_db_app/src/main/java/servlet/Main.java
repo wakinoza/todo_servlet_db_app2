@@ -57,7 +57,7 @@ public class Main extends HttpServlet {
 
     String text = request.getParameter("text");
     String action = request.getParameter("action");
-    int id = Integer.parseInt(request.getParameter("id"));
+
     TodoItemLogic todoItemLogic = new TodoItemLogic();
 
     if ("create".equals(action)) {
@@ -71,6 +71,8 @@ public class Main extends HttpServlet {
       }
 
     } else {
+      String idString = request.getParameter("id");
+      int id = Integer.parseInt(idString);
       if (!todoItemLogic.updateProgress(id)) {
         request.setAttribute("errorMsg", "進捗の更新に失敗しました。");
       }
