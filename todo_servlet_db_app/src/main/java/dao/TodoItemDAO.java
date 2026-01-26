@@ -53,8 +53,7 @@ public class TodoItemDAO extends DAO {
             } else if (result.equals("実施中")) {
               nextProgress = "完了済";
             } else {
-              // メソッドを跨ぐより、同一コネクション内での削除が望ましい
-              return deleteInSameCon(con, id);
+              return delete(id);
             }
           } else {
             return false;
@@ -82,7 +81,7 @@ public class TodoItemDAO extends DAO {
   public List<TodoItem> selectAll() {
     List<TodoItem> todoItemList = new ArrayList<>();
 
-    try (Connection con = getConnection()) {
+    try (Connection con = getReadConnection()) {
       String sql = "SELECT * FROM todoItems";
       PreparedStatement ps = con.prepareStatement(sql);
 
@@ -109,7 +108,7 @@ public class TodoItemDAO extends DAO {
    * @return 削除操作が完了したがどうかを示す真偽値
    */
   public boolean delete(String id) {
-    try (Connection con = getConnection()) {
+    try (Connection con = getWriteConnection()) {
       String sql = "DELETE FROM todoItems WHERE id = ?";
       PreparedStatement ps = con.prepareStatement(sql);
 
