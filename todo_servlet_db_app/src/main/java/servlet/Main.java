@@ -1,17 +1,17 @@
 package servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import model.TodoItemLogic;
 import bean.TodoItem;
 import bean.User;
-import model.TodoItemLogic;
 
 /**
  * . メイン画面の処理を司るサーブレット
@@ -57,7 +57,7 @@ public class Main extends HttpServlet {
 
     String text = request.getParameter("text");
     String action = request.getParameter("action");
-    String id = request.getParameter("id");
+    int id = Integer.parseInt(request.getParameter("id"));
     TodoItemLogic todoItemLogic = new TodoItemLogic();
 
     if ("create".equals(action)) {

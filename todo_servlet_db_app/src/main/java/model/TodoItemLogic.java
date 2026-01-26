@@ -50,8 +50,8 @@ public class TodoItemLogic {
    * @param id TodoItemインスタンスのID
    * @return 更新が成功したかを示す真偽値
    */
-  public boolean updateProgress(String id) {
-    if (id == null || !id.matches("^[0-9]+$")) {
+  public boolean updateProgress(int id) {
+    if (id < 0) {
       return false;
     }
     TodoItemDAO todoItemDao = new TodoItemDAO();

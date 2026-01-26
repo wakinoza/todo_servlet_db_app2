@@ -38,13 +38,13 @@ public class TodoItemDAO extends DAO {
    * @param id 進捗情報を更新するTodoItemインスタンスのID
    * @return 変更操作が完了したがどうかを示す真偽値
    */
-  public boolean updateProgress(String id) {
+  public boolean updateProgress(int id) {
     try (Connection con = getWriteConnection()) {
       String sql = "SELECT progress FROM todoItems WHERE id = ?";
       String nextProgress;
 
       try (PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setString(1, id);
+        ps.setInt(1, id);
         try (ResultSet rs = ps.executeQuery()) {
           if (rs.next()) {
             String result = rs.getString("progress");
@@ -88,7 +88,7 @@ public class TodoItemDAO extends DAO {
       try (ResultSet rs = ps.executeQuery()) {
         while (rs.next()) {
           TodoItem todoItem = new TodoItem();
-          todoItem.setId(rs.getString("id"));
+          todoItem.setId(rs.getInt("id"));
           todoItem.setText(rs.getString("text"));
           todoItem.setProgress(rs.getString("progress"));
           todoItemList.add(todoItem);
@@ -107,12 +107,12 @@ public class TodoItemDAO extends DAO {
    * @param id 削除するTodoItemインスタンスのID
    * @return 削除操作が完了したがどうかを示す真偽値
    */
-  public boolean delete(String id) {
+  public boolean delete(int id) {
     try (Connection con = getWriteConnection()) {
       String sql = "DELETE FROM todoItems WHERE id = ?";
       PreparedStatement ps = con.prepareStatement(sql);
 
-      ps.setString(1, id);
+      ps.setInt(1, id);
 
       int result = ps.executeUpdate();
       if (result != 1) {
