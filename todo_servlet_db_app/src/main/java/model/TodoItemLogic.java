@@ -1,13 +1,15 @@
 package model;
 
+import dao.TodoItemDAO;
 import java.util.List;
 import bean.TodoItem;
-import dao.TodoItemDAO;
 
 /**
  * . toditemインスタンスの処理を行うビジネスクラス
  */
 public class TodoItemLogic {
+  // バリデーション用の定数
+  private static final int MAX_TEXT_LENGTH = 100;
 
   /**
    * . todoItemインスタンスを作成するめそっど
@@ -16,13 +18,16 @@ public class TodoItemLogic {
    * @return 作成に成功すればTodoItemインスタンスを、失敗すればnullを返す
    */
   public TodoItem create(String text) {
-    if (text != null && !text.isEmpty()) {
-      TodoItem todoItem = new TodoItem(text);
-      return todoItem;
 
-    } else {
+    if (text == null || text.trim().isEmpty()) {
       return null;
     }
+
+    if (text.length() > MAX_TEXT_LENGTH) {
+      return null;
+    }
+
+    return new TodoItem(text);
   }
 
   /**
@@ -32,6 +37,9 @@ public class TodoItemLogic {
    * @return 挿入が成功したかを示す真偽値
    */
   public boolean add(TodoItem todoItem) {
+    if (todoItem == null || todoItem.getText() == null) {
+      return false;
+    }
     TodoItemDAO todoItemDao = new TodoItemDAO();
     return todoItemDao.insert(todoItem);
   }
@@ -43,6 +51,9 @@ public class TodoItemLogic {
    * @return 更新が成功したかを示す真偽値
    */
   public boolean updateProgress(String id) {
+    if (id == null || !id.matches("^[0-9]+$")) {
+      return false;
+    }
     TodoItemDAO todoItemDao = new TodoItemDAO();
     return todoItemDao.updateProgress(id);
   }
