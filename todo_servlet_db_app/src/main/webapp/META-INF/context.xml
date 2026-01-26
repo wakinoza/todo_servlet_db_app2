@@ -1,12 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Context>
-  <Resource
-    name="jdbc/test_db"
-    auth="Container"
-    type="javax.sql.DataSource"
-    driverClassName="com.mysql.cj.jdbc.Driver"
-    url="jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
-    username="todo_user"
-    password="todo_user"
-   />
+  <Resource name="jdbc/test_db_read"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="com.mysql.cj.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
+            username="todo_read"
+            password="read_password"
+            maxTotal="20"
+            maxIdle="10"
+            maxWaitMillis="-1" />
+
+  <Resource name="jdbc/test_db_write"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="com.mysql.cj.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
+            username="todo_write"
+            password="write_password"
+            maxTotal="20"
+            maxIdle="10"
+            maxWaitMillis="-1" />
 </Context>
