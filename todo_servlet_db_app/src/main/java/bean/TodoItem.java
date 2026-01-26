@@ -5,7 +5,7 @@ package bean;
  */
 public class TodoItem {
   /** . id */
-  private String id;
+  private int id;
 
   /** . テキスト入力欄の文字列情報 */
   private String text;
@@ -29,7 +29,7 @@ public class TodoItem {
   }
 
   /** . getterメソッド */
-  public String getId() {
+  public int getId() {
     return this.id;
   }
 
@@ -42,7 +42,7 @@ public class TodoItem {
   }
 
   /** . setterメソット */
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
