@@ -39,46 +39,39 @@ public class TodoItemDAO extends DAO {
    * @return 変更操作が完了したがどうかを示す真偽値
    */
   public boolean updateProgress(String id) {
-    try (Connection con = getConnection()) {
+    try (Connection con = getWriteConnection()) {
       String sql = "SELECT progress FROM todoItems WHERE id = ?";
-      PreparedStatement ps = con.prepareStatement(sql);
-
-      ps.setString(1, id);
-
       String nextProgress;
 
-      try (ResultSet rs = ps.executeQuery()) {
-
-        if (rs.next()) {
-          String result = rs.getString("progress");
-          if (result.equals("未実施")) {
-            nextProgress = "実施中";
-          } else if (result.equals("実施中")) {
-            nextProgress = "完了済";
+      try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, id);
+        try (ResultSet rs = ps.executeQuery()) {
+          if (rs.next()) {
+            String result = rs.getString("progress");
+            if (result.equals("未実施")) {
+              nextProgress = "実施中";
+            } else if (result.equals("実施中")) {
+              nextProgress = "完了済";
+            } else {
+              // メソッドを跨ぐより、同一コネクション内での削除が望ましい
+              return deleteInSameCon(con, id);
+            }
           } else {
-            return delete(id);
+            return false;
           }
-
-        } else {
-          return false;
         }
       }
 
       String sql2 = "UPDATE todoItems SET progress = ? WHERE id = ?";
-      PreparedStatement ps2 = con.prepareStatement(sql2);
-
-      ps2.setString(1, nextProgress);
-      ps2.setString(2, id);
-
-      int result2 = ps2.executeUpdate();
-
-      if (result2 != 1) {
-        return false;
+      try (PreparedStatement ps2 = con.prepareStatement(sql2)) {
+        ps2.setString(1, nextProgress);
+        ps2.setString(2, id);
+        return ps2.executeUpdate() == 1;
       }
     } catch (Exception e) {
       e.printStackTrace();
+      return false;
     }
-    return true;
   }
 
   /**
