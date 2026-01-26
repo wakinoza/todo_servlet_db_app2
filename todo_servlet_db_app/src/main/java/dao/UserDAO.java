@@ -18,19 +18,21 @@ public class UserDAO extends DAO {
     User user = null;
 
     try (Connection con = getReadConnection()) {
-      PreparedStatement st =
-          con.prepareStatement("SELECT id, name FROM todo_users WHERE name=? AND password=?");
+      String sql = "SELECT id, name FROM todo_users WHERE name=? AND password=?";
+      try (PreparedStatement st = con.prepareStatement(sql);) {
+        st.setString(1, name);
+        st.setString(2, pass);
 
-      st.setString(1, name);
-      st.setString(2, pass);
-
-      try (ResultSet rs = st.executeQuery()) {
-        if (rs.next()) {
-          user = new User();
-          user.setId(rs.getInt("id"));
-          user.setName(rs.getString("name"));
+        try (ResultSet rs = st.executeQuery()) {
+          if (rs.next()) {
+            user = new User();
+            user.setId(rs.getInt("id"));
+            user.setName(rs.getString("name"));
+          }
         }
       }
+
+
     } catch (Exception e) {
       e.printStackTrace();
     }
