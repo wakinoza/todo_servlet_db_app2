@@ -8,8 +8,8 @@ import bean.User;
  */
 public class LoginLogic {
 
-  private static final int MAX_NAME_LENGTH = 20;
-  private static final int MAX_PASS_LENGTH = 64;
+  private static final int MAX_NAME_LENGTH = 50;
+  private static final int MAX_PASS_LENGTH = 100;
 
   /**
    * . 指定されたUserがDBテーブルにあるかを確認するメソッド
