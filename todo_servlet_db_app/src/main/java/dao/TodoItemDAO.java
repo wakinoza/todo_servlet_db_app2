@@ -64,7 +64,7 @@ public class TodoItemDAO extends DAO {
       String sql2 = "UPDATE todoItems SET progress = ? WHERE id = ?";
       try (PreparedStatement ps2 = con.prepareStatement(sql2)) {
         ps2.setString(1, nextProgress);
-        ps2.setString(2, id);
+        ps2.setInt(2, id);
         return ps2.executeUpdate() == 1;
       }
     } catch (Exception e) {
