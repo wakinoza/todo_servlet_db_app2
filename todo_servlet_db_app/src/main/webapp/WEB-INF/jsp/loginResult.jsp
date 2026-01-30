@@ -11,7 +11,7 @@
  </c:when>
  <c:otherwise>
   <p>ログインに成功しました</p>
-  <p>ようこそ ${loginUser.name}さん</p>
+  <p>ようこそ <c:out value="${loginUser.name}" />さん</p>
   <a href="Main">Todo一覧を確認する</a>
  </c:otherwise>
 </c:choose>
