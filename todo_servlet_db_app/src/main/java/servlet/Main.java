@@ -28,6 +28,8 @@ public class Main extends HttpServlet {
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
+    response.setHeader("Content-Security-Policy",
+        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
 
     HttpSession session = request.getSession();
     User loginUser = (User) session.getAttribute("loginUser");
@@ -57,6 +59,8 @@ public class Main extends HttpServlet {
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
+    response.setHeader("Content-Security-Policy",
+        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
 
     String text = request.getParameter("text");
     String action = request.getParameter("action");

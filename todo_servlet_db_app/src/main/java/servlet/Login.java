@@ -25,6 +25,9 @@ public class Login extends HttpServlet {
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
+    response.setHeader("Content-Security-Policy",
+        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+
     String name = request.getParameter("name");
     String pass = request.getParameter("pass");
     LoginLogic loginLogic = new LoginLogic();
