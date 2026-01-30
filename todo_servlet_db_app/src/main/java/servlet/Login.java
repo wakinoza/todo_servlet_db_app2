@@ -1,14 +1,14 @@
 package servlet;
 
-import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import bean.User;
+import java.io.IOException;
 import model.LoginLogic;
+import bean.User;
 
 /**
  * . ログイン処理するサーブレットクラス
@@ -24,6 +24,7 @@ public class Login extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     request.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
     String name = request.getParameter("name");
     String pass = request.getParameter("pass");
     LoginLogic loginLogic = new LoginLogic();
