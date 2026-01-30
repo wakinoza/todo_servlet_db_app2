@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
+<Context useHttpOnly="true">
   <Resource name="jdbc/test_db_read"
             auth="Container"
             type="javax.sql.DataSource"
