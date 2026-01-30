@@ -19,8 +19,8 @@ String errorMsg = (String )request.getAttribute("errorMsg");
   <input type="submit" value="Todoを新規追加">
 </form>
 
-<c:if test="not empty errorMsg">
-  <p><%= errorMsg %></p>
+<c:if test="${not empty errorMsg}">
+  <p><c:out value="${errorMsg}" /></p>
 </c:if>
 
  <c:choose>
@@ -30,7 +30,7 @@ String errorMsg = (String )request.getAttribute("errorMsg");
   
   <c:otherwise>
   　<div style="margin: 5px; background-color:#1760a0; color:white; padding-left: 10px;">
-    　<h2　style="margin: 0;">Todo一覧</h2>
+    　<h2 style="margin: 0;">Todo一覧</h2>
     </div>
   </c:otherwise>
   
@@ -39,20 +39,20 @@ String errorMsg = (String )request.getAttribute("errorMsg");
 <c:forEach var="todoItem" items="${todoItemList}">
   <div style="margin: 5px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">
     <span style="margin-right: 15px;">
-      ${todoItem.progress} : ${todoItem.text}
+      <c:out value="${todoItem.progress}" /> : <c:out value="${todoItem.text}" />
     </span>
     
     <c:choose>
       <c:when test="${todoItem.progress == '完了済'}"> 
         <form action="Main" method="post" style="display:inline-block;">
-          <input type="hidden" name="id" value="${todoItem.id}">
+          <input type="hidden" name="id" value="<c:out value='${todoItem.id}' />">
           <button type="submit" style="background:orange; border:none; border-radius:5px; cursor:pointer; padding:5px; ">todoを削除</button> 
         </form>
       </c:when>
 
       <c:otherwise>      
         <form action="Main" method="post" style="display:inline-block;">
-          <input type="hidden" name="id" value="${todoItem.id}">
+          <input type="hidden" name="id" value="<c:out value='${todoItem.id}' />">
           <button type="submit" style="background:blue; border:none; border-radius:5px; color:white; cursor:pointer; padding:5px;">進捗を更新</button>
         </form>
       </c:otherwise>
