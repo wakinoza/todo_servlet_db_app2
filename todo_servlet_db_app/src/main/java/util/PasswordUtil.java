@@ -15,4 +15,9 @@ public class PasswordUtil {
     return encoder.matches(rawPassword, hashed);
   }
 
+  public static void main(String[] args) {
+    String myPass = "yamada_password";
+    System.out.println("生成されたハッシュ値: " + hash(myPass));
+  }
+
 }
