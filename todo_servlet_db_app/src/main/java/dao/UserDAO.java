@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import bean.User;
 import util.PasswordUtil;
 
-/** todo_usersテーブルの操作を行うDAOクラス */
+/** todo_usersテーブルの操作を行うDAOクラス. */
 public class UserDAO extends DAO {
 
   /**
-   * テーブルに指定されたUserが存在するかを確認するメソッド
+   * テーブルに指定されたUserが存在するかを確認するメソッド.
    *
    * @param name ユーザー名
    * @param pass 入力された平文パスワード
