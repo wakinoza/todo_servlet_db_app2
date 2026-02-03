@@ -19,7 +19,7 @@ public class UserDAO extends DAO {
   public User select(String name, String pass) {
     User user = null;
 
-    String sql = "SELECT id, name, password_hash FROM todo_users WHERE name = ?";
+    String sql = "SELECT id, name, password FROM todo_users WHERE name = ?";
 
     try (Connection con = getReadConnection()) {
       try (PreparedStatement st = con.prepareStatement(sql)) {
@@ -28,7 +28,7 @@ public class UserDAO extends DAO {
         try (ResultSet rs = st.executeQuery()) {
           if (rs.next()) {
 
-            String dbHash = rs.getString("password_hash");
+            String dbHash = rs.getString("password");
 
             if (PasswordUtil.check(pass, dbHash)) {
               user = new User();
