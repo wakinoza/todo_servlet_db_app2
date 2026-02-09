@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.TodoItemLogic;
 import bean.TodoItem;
-import bean.User;
 
 /**
  * . メイン画面の処理を司るサーブレット
@@ -31,10 +30,8 @@ public class Main extends HttpServlet {
     response.setHeader("Content-Security-Policy",
         "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
 
-    HttpSession session = request.getSession();
-    User loginUser = (User) session.getAttribute("loginUser");
-
-    if (loginUser == null) {
+    HttpSession session = request.getSession(false);
+    if (session == null || session.getAttribute("loginUser") == null) {
       response.sendRedirect("index.jsp");
       return;
     }
