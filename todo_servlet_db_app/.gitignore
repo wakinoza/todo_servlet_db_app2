@@ -14,6 +14,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+.env
 
 ### VS Code ###
 .vscode/
@@ -40,4 +41,4 @@ target/
 .sts4-cache
 
 
-/build/
+
