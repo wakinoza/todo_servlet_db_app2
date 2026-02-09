@@ -29,6 +29,8 @@ public class Main extends HttpServlet {
     response.setContentType("text/html; charset=UTF-8");
     response.setHeader("Content-Security-Policy",
         "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+    response.setHeader("X-Frame-Options", "DENY");
+    response.setHeader("X-Content-Type-Options", "nosniff");
 
     HttpSession session = request.getSession(false);
     if (session == null || session.getAttribute("loginUser") == null) {
@@ -58,6 +60,8 @@ public class Main extends HttpServlet {
     response.setContentType("text/html; charset=UTF-8");
     response.setHeader("Content-Security-Policy",
         "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
+    response.setHeader("X-Frame-Options", "DENY");
+    response.setHeader("X-Content-Type-Options", "nosniff");
 
     HttpSession session = request.getSession(false);
     if (session == null || session.getAttribute("loginUser") == null) {
