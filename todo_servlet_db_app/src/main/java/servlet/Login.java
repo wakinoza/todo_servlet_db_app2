@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.Base64;
 import model.LoginLogic;
 import bean.User;
 
@@ -37,6 +39,14 @@ public class Login extends HttpServlet {
     if (loginUser != null) {
       HttpSession session = request.getSession();
       session.setAttribute("loginUser", loginUser);
+
+      SecureRandom random = new SecureRandom();
+      byte[] bytes = new byte[32];
+      random.nextBytes(bytes);
+      String csrfToken = Base64.getEncoder().encodeToString(bytes);
+
+      // セッションに合言葉（トークン）を保存
+      session.setAttribute("csrfToken", csrfToken);
     }
     request.getRequestDispatcher("WEB-INF/jsp/loginResult.jsp").forward(request, response);
   }
