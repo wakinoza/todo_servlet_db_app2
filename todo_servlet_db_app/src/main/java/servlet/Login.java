@@ -44,9 +44,13 @@ public class Login extends HttpServlet {
       byte[] bytes = new byte[32];
       random.nextBytes(bytes);
       String csrfToken = Base64.getEncoder().encodeToString(bytes);
-
-      // セッションに合言葉（トークン）を保存
       session.setAttribute("csrfToken", csrfToken);
+
+      String sessionId = session.getId();
+      String contextPath = request.getContextPath();
+      String cookieHeader = String.format("JSESSIONID=%s; Path=%s; HttpOnly; SameSite=Lax",
+          sessionId, (contextPath.isEmpty() ? "/" : contextPath));
+      response.setHeader("Set-Cookie", cookieHeader);
     }
     request.getRequestDispatcher("WEB-INF/jsp/loginResult.jsp").forward(request, response);
   }
