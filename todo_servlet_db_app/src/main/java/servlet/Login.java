@@ -37,16 +37,20 @@ public class Login extends HttpServlet {
     loginUser = loginLogic.serch(name, pass);
 
     if (loginUser != null) {
-      HttpSession session = request.getSession();
-      session.setAttribute("loginUser", loginUser);
+      HttpSession oldSession = request.getSession(false);
+      if (oldSession != null) {
+        oldSession.invalidate(); // 古いセッションを破棄
+      }
+      HttpSession newSession = request.getSession(true); // 新しいIDで生成
+      newSession.setAttribute("loginUser", loginUser);
 
       SecureRandom random = new SecureRandom();
       byte[] bytes = new byte[32];
       random.nextBytes(bytes);
       String csrfToken = Base64.getEncoder().encodeToString(bytes);
-      session.setAttribute("csrfToken", csrfToken);
+      newSession.setAttribute("csrfToken", csrfToken);
 
-      String sessionId = session.getId();
+      String sessionId = newSession.getId();
       String contextPath = request.getContextPath();
       String cookieHeader = String.format("JSESSIONID=%s; Path=%s; HttpOnly; SameSite=Lax",
           sessionId, (contextPath.isEmpty() ? "/" : contextPath));
