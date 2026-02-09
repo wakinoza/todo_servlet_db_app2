@@ -59,6 +59,20 @@ public class Main extends HttpServlet {
     response.setHeader("Content-Security-Policy",
         "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';");
 
+    HttpSession session = request.getSession(false);
+    if (session == null || session.getAttribute("loginUser") == null) {
+      response.sendRedirect("index.jsp");
+      return;
+    }
+
+    String savedToken = (String) session.getAttribute("csrfToken");
+    String requestToken = request.getParameter("csrfToken");
+
+    if (savedToken == null || !savedToken.equals(requestToken)) {
+      response.sendError(HttpServletResponse.SC_FORBIDDEN, "不正なリクエストです。");
+      return;
+    }
+
     String text = request.getParameter("text");
     String action = request.getParameter("action");
 
