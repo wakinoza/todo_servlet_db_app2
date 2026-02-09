@@ -16,6 +16,7 @@ String errorMsg = (String )request.getAttribute("errorMsg");
 
 <form action="Main?action=create" method="post">
   <input type="text" name="text">
+  <input type="hidden" name="csrfToken" value="${csrfToken}">
   <input type="submit" value="Todoを新規追加">
 </form>
 
@@ -46,6 +47,7 @@ String errorMsg = (String )request.getAttribute("errorMsg");
       <c:when test="${todoItem.progress == '完了済'}"> 
         <form action="Main" method="post" style="display:inline-block;">
           <input type="hidden" name="id" value="<c:out value='${todoItem.id}' />">
+          <input type="hidden" name="csrfToken" value="${csrfToken}">
           <button type="submit" style="background:orange; border:none; border-radius:5px; cursor:pointer; padding:5px; ">todoを削除</button> 
         </form>
       </c:when>
@@ -53,6 +55,7 @@ String errorMsg = (String )request.getAttribute("errorMsg");
       <c:otherwise>      
         <form action="Main" method="post" style="display:inline-block;">
           <input type="hidden" name="id" value="<c:out value='${todoItem.id}' />">
+          <input type="hidden" name="csrfToken" value="${csrfToken}">
           <button type="submit" style="background:blue; border:none; border-radius:5px; color:white; cursor:pointer; padding:5px;">進捗を更新</button>
         </form>
       </c:otherwise>
