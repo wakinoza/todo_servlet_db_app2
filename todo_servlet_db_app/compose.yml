@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: todo-db
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=${DB_NAME}
+      - DB_USERNAME_READ=${DB_USERNAME_READ}
+      - DB_PASSWORD_READ=${DB_PASSWORD_READ}
+      - DB_USERNAME_WRITE=${DB_USERNAME_WRITE}
+      - DB_PASSWORD_WRITE=${DB_PASSWORD_WRITE}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/tmp/init.sql.template:ro
+    ports:
+      - "3307:3306"
+    command: >
+      sh -c "envsubst < /tmp/init.sql.template > /docker-entrypoint-initdb.d/init.sql && 
+             exec docker-entrypoint.sh mysqld"
+
+  app:
+    build: .
+    container_name: todo-app
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME_READ=${DB_USERNAME_READ}
+      - DB_PASSWORD_READ=${DB_PASSWORD_READ}
+      - DB_USERNAME_WRITE=${DB_USERNAME_WRITE}
+      - DB_PASSWORD_WRITE=${DB_PASSWORD_WRITE}
+    depends_on:
+      - db
+
+volumes:
+  db_data:
