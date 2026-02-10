@@ -13,6 +13,7 @@ WORKDIR /usr/local/tomcat
 
 COPY --from=builder /app/target/todo.war webapps/todo.war
 
+ENV CATALINA_OPTS="-Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"
 
 COPY context.xml conf/context.xml
 
