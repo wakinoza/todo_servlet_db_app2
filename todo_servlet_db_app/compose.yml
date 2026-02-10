@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   db:
-	build:
-	  context: .
-	  dockerfile: db.Dockerfile
+    build:
+      context: .
+      dockerfile: db.Dockerfile
     container_name: todo-db
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
