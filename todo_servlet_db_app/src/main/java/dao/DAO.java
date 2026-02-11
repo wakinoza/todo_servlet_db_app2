@@ -14,7 +14,6 @@ public class DAO {
   public Connection getConnection() throws Exception {
     if (ds == null) {
       InitialContext ic = new InitialContext();
-      // context.xmlで定義した検索用リソース名を指定
       ds = (DataSource) ic.lookup("java:comp/env/jdbc/todo_db");
     }
     return ds.getConnection();
