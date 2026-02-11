@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context useHttpOnly="true">
-  <Resource name="jdbc/{DB_NAME}"
+  <Resource name="jdbc/${DB_NAME}"
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="com.mysql.cj.jdbc.Driver"
