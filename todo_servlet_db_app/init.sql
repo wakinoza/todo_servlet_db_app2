@@ -1,5 +1,5 @@
 
-CREATE TABLE IF NOT EXISTS todo_users (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     password VARCHAR(100) NOT NULL UNIQUE
@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS todoItems (
     progress VARCHAR(5) NOT NULL
 );
 
-INSERT INTO todo_users (name, password) 
+INSERT INTO users (name, password) 
 VALUES ('yamada','$2a$12$N/k4HeW.r1u3NLg9Q8piYOecakaLtmAdOVOIm7xJlHdcZ.tA2qMMW')
 ON DUPLICATE KEY UPDATE name=VALUES(name);
