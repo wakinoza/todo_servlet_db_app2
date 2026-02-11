@@ -19,9 +19,9 @@ public class UserDAO extends DAO {
   public User select(String name, String pass) {
     User user = null;
 
-    String sql = "SELECT id, name, password FROM todo_users WHERE name = ?";
+    String sql = "SELECT id, name, password FROM users WHERE name = ?";
 
-    try (Connection con = getReadConnection()) {
+    try (Connection con = getConnection()) {
       try (PreparedStatement st = con.prepareStatement(sql)) {
         st.setString(1, name);
 

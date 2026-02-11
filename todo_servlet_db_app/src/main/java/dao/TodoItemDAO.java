@@ -17,7 +17,7 @@ public class TodoItemDAO extends DAO {
    * @return 挿入操作が完了したがどうかを示す真偽値
    */
   public boolean insert(TodoItem todoItem) {
-    try (Connection con = getWriteConnection()) {
+    try (Connection con = getConnection()) {
       String sql = "INSERT INTO todoItems (text, progress) VALUES (?, ?)";
       try (PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -29,7 +29,7 @@ public class TodoItemDAO extends DAO {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return true;
+    return false;
   }
 
   /**
@@ -39,7 +39,7 @@ public class TodoItemDAO extends DAO {
    * @return 変更操作が完了したがどうかを示す真偽値
    */
   public boolean updateProgress(int id) {
-    try (Connection con = getWriteConnection()) {
+    try (Connection con = getConnection()) {
       String sql = "SELECT progress FROM todoItems WHERE id = ?";
       String nextProgress;
 
@@ -81,7 +81,7 @@ public class TodoItemDAO extends DAO {
   public List<TodoItem> selectAll() {
     List<TodoItem> todoItemList = new ArrayList<>();
 
-    try (Connection con = getReadConnection()) {
+    try (Connection con = getConnection()) {
       String sql = "SELECT * FROM todoItems";
       PreparedStatement ps = con.prepareStatement(sql);
 
@@ -108,20 +108,16 @@ public class TodoItemDAO extends DAO {
    * @return 削除操作が完了したがどうかを示す真偽値
    */
   public boolean delete(int id) {
-    try (Connection con = getWriteConnection()) {
+    try (Connection con = getConnection()) {
       String sql = "DELETE FROM todoItems WHERE id = ?";
-      PreparedStatement ps = con.prepareStatement(sql);
-
-      ps.setInt(1, id);
-
-      int result = ps.executeUpdate();
-      if (result != 1) {
-        return false;
+      try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, id);
+        return ps.executeUpdate() == 1;
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return true;
+    return false;
   }
 
 }

@@ -6,30 +6,18 @@ import javax.sql.DataSource;
 
 /** . DB接続をつかさどる共通クラス. */
 public class DAO {
-  static DataSource readDs; // 検索専用
-  static DataSource writeDs; // 更新用
+  static DataSource ds;
 
   /**
-   * 検索専用（SELECTのみ）のConnectionを取得.
+   * Connectionを取得.
    */
-  public Connection getReadConnection() throws Exception {
-    if (readDs == null) {
+  public Connection getConnection() throws Exception {
+    if (ds == null) {
       InitialContext ic = new InitialContext();
       // context.xmlで定義した検索用リソース名を指定
-      readDs = (DataSource) ic.lookup("java:comp/env/jdbc/test_db_read");
+      ds = (DataSource) ic.lookup("java:comp/env/jdbc/todo_db");
     }
-    return readDs.getConnection();
+    return ds.getConnection();
   }
 
-  /**
-   * 更新用（INSERT/UPDATE/DELETE）のConnectionを取得.
-   */
-  public Connection getWriteConnection() throws Exception {
-    if (writeDs == null) {
-      InitialContext ic = new InitialContext();
-      // context.xmlで定義した更新用リソース名を指定
-      writeDs = (DataSource) ic.lookup("java:comp/env/jdbc/test_db_write");
-    }
-    return writeDs.getConnection();
-  }
 }

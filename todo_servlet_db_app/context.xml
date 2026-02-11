@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context useHttpOnly="true">
-  <Resource name="jdbc/test_db_read"
+  <Resource name="jdbc/${DB_NAME}"
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="com.mysql.cj.jdbc.Driver"
-            url="jdbc:mysql://${DB_HOST}:3306/test_db?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
-            username="${DB_USER_READONLY}"
-            password="${DB_PASSWORD_READONLY}"
+            url="jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
+            username="${DB_USER_NAME}"
+            password="${DB_PASSWORD}"
             maxTotal="20"
             maxIdle="10"
             maxWaitMillis="-1" />
 
-  <Resource name="jdbc/test_db_write"
-            auth="Container"
-            type="javax.sql.DataSource"
-            driverClassName="com.mysql.cj.jdbc.Driver"
-            url="jdbc:mysql://${DB_HOST}:3306/test_db?serverTimezone=Asia/Tokyo&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=true"
-            username="${DB_USER_WRITEONLY}"
-            password="${DB_PASSWORD_WRITEONLY}"
-            maxTotal="20"
-            maxIdle="10"
-            maxWaitMillis="-1" />
 </Context>
