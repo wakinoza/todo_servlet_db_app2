@@ -7,20 +7,21 @@ services:
       dockerfile: db.Dockerfile
     container_name: todo-db
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=test_db
       - DB_USER_READONLY=${DB_USER_READONLY}
       - DB_PASSWORD_READONLY=${DB_PASSWORD_READONLY}
       - DB_USER_WRITEONLY=${DB_USER_WRITEONLY}
       - DB_PASSWORD_WRITEONLY=${DB_PASSWORD_WRITEONLY}
+    env_file:
+      - .env
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/tmp/init.sql.template:ro
     ports:
       - "3307:3306"
     command: >
-      sh -c "envsubst < /tmp/init.sql.template > /docker-entrypoint-initdb.d/init.sql && 
-             exec docker-entrypoint.sh mysqld"
+      sh -c "envsubst '\$DB_USER_READONLY \$DB_PASSWORD_READONLY \$DB_USER_WRITEONLY \$DB_PASSWORD_WRITEONLY' < /tmp/init.sql.template > /docker-entrypoint-initdb.d/init.sql && exec docker-entrypoint.sh mysqld"
 
   app:
     build: .
