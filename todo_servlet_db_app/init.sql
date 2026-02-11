@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS todoItems (
 -- 3. 初期ユーザーデータの投入 
 -- パスワードはハッシュ化済み
 INSERT INTO todo_users (name, password) 
-VALUES ('yamada', '$2a$12$N/k4HeW.r1u3NLg9Q8piYOecakaLtmAdOVOIm7xJlHdcZ.tA2qMMW')
+VALUES ('yamada','\$2a\$12\$N/k4HeW.r1u3NLg9Q8piYOecakaLtmAdOVOIm7xJlHdcZ.tA2qMMW')
 ON DUPLICATE KEY UPDATE name=VALUES(name);
 
 -- 4. 参照用ユーザーの作成と権限付与
