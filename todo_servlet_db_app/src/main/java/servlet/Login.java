@@ -11,6 +11,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import model.LoginLogic;
 import bean.User;
+import factory.LogicFactory;
 
 /**
  * . ログイン処理するサーブレットクラス
@@ -32,9 +33,10 @@ public class Login extends HttpServlet {
 
     String name = request.getParameter("name");
     String pass = request.getParameter("pass");
-    LoginLogic loginLogic = new LoginLogic();
+    LoginLogic logic = LogicFactory.createLoginLogic();
+    logic.search(name, pass);
     User loginUser = null;
-    loginUser = loginLogic.search(name, pass);
+    loginUser = logic.search(name, pass);
 
     if (loginUser != null) {
       HttpSession oldSession = request.getSession(false);

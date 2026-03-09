@@ -10,6 +10,17 @@ public class LoginLogic {
 
   private static final int MAX_NAME_LENGTH = 50;
   private static final int MAX_PASS_LENGTH = 100;
+  private final UserDAO userDao;
+
+  // コンストラクタでDAOを受け取る
+  /**
+   * . コンストラクタ
+   *
+   * @param userDao UserDAOのインスタンス
+   */
+  public LoginLogic(UserDAO userDao) {
+    this.userDao = userDao;
+  }
 
   /**
    * . 指定されたUserがDBテーブルにあるかを確認するメソッド
@@ -26,7 +37,7 @@ public class LoginLogic {
     if (name.length() > MAX_NAME_LENGTH || pass.length() > MAX_PASS_LENGTH) {
       return null;
     }
-    UserDAO userDao = new UserDAO();
+
     return userDao.select(name, pass);
   }
 }
