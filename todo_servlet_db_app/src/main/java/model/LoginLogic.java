@@ -18,7 +18,7 @@ public class LoginLogic {
    * @param pass パスワード
    * @return 指定されたUserがDBテーブルにあればUseインスタンスを、なければnullを返す
    */
-  public User serch(String name, String pass) {
+  public User search(String name, String pass) {
     if (name == null || name.trim().isEmpty() || pass == null || pass.trim().isEmpty()) {
       return null;
     }

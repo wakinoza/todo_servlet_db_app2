@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
     String pass = request.getParameter("pass");
     LoginLogic loginLogic = new LoginLogic();
     User loginUser = null;
-    loginUser = loginLogic.serch(name, pass);
+    loginUser = loginLogic.search(name, pass);
 
     if (loginUser != null) {
       HttpSession oldSession = request.getSession(false);
