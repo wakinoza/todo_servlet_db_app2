@@ -12,6 +12,8 @@ public class LogicFactory {
 
   /**
    * . LoginLogicのインスタンスを生成して返す
+   * 
+   * @return LoginLogicのインスタンス
    */
   public static LoginLogic createLoginLogic() {
     return new LoginLogic(new UserDAO());
@@ -20,7 +22,7 @@ public class LogicFactory {
   /**
    * . TodoItemLogicのインスタンスを生成して返す
    *
-   * @return
+   * @return TodoItemLogicのインスタン
    */
   public static TodoItemLogic createTodoItemLogic() {
     return new TodoItemLogic(new TodoItemDAO());
