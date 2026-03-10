@@ -1,15 +1,15 @@
 package model;
 
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import dao.UserDAO;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import bean.User;
 
 class LoginLogicTest {
@@ -19,123 +19,44 @@ class LoginLogicTest {
 
   @BeforeEach
   void setUp() {
-    // テストごとにモックを初期化
     mockDao = mock(UserDAO.class);
     loginLogic = new LoginLogic(mockDao);
   }
 
-  @Test
-  @DisplayName("正常なユーザー名とパスワードでユーザーが返されること")
-  void testSearchSuccess() {
-    // 準備
-    User expectedUser = new User(1, "admin", "pass123");
-    when(mockDao.select("admin", "pass123")).thenReturn(expectedUser);
-
-    // 実行
-    User result = loginLogic.search("admin", "pass123");
-
-    // 検証 (AssertJ)
-    assertThat(result).isNotNull().isEqualTo(expectedUser);
-  }
-
+  // --- 正常系 ---
   @ParameterizedTest
-  @ValueSource(strings = {"", " ", "   "})
-  @DisplayName("名前が空文字や空白の場合にnullを返すこと")
-  void testSearchEmptyName(String emptyName) {
-    User result = loginLogic.search(emptyName, "password");
-    assertThat(result).isNull();
-    verify(mockDao, never()).select(anyString(), anyString());
-  }
+  @MethodSource("provideSuccessPatterns")
+  @DisplayName("正常な入力値でログインに成功すること")
+  void testSearchSuccess(String name, String pass) {
+    User expected = new User(1, name, pass);
+    when(mockDao.select(name, pass)).thenReturn(expected);
 
-  @Test
-  @DisplayName("名前が50文字を超える場合にnullを返すこと")
-  void testSearchLongName() {
-    String longName = "a".repeat(51);
-    User result = loginLogic.search(longName, "password");
-    assertThat(result).isNull();
-
-    verify(mockDao, never()).select(anyString(), anyString());
-  }
-
-  @ParameterizedTest
-  @ValueSource(strings = {"", " ", "   "})
-  @DisplayName("パスワードが空文字や空白の場合にnullを返すこと")
-  void testSearchEmptyPass(String emptyPass) {
-    User result = loginLogic.search("admin", emptyPass);
-    assertThat(result).isNull();
-    verify(mockDao, never()).select(anyString(), anyString());
-  }
-
-  @Test
-  @DisplayName("パスワードがnullの場合にnullを返すこと")
-  void testSearchNullPass() {
-    User result = loginLogic.search("admin", null);
-    assertThat(result).isNull();
-    verify(mockDao, never()).select(anyString(), anyString());
-  }
-
-  @Test
-  @DisplayName("パスワードが100文字を超える場合にnullを返すこと")
-  void testSearchLongPass() {
-    String longPass = "a".repeat(101);
-    User result = loginLogic.search("admin", longPass);
-    assertThat(result).isNull();
-    verify(mockDao, never()).select(anyString(), anyString());
-
-  }
-
-  @Test
-  @DisplayName("名前は正常だがパスワードがnullの場合にnullを返すこと")
-  void testSearchNameOkPassIsNull() {
-    User result = loginLogic.search("admin", null);
-    assertThat(result).isNull();
-  }
-
-  @Test
-  @DisplayName("名前は正常だがパスワードが空白のみの場合にnullを返すこと")
-  void testSearchNameOkPassIsBlank() {
-    User result = loginLogic.search("admin", "   ");
-    assertThat(result).isNull();
-  }
-
-  @Test
-  @DisplayName("名前は正常だがパスワードが100文字を超える場合にnullを返すこと")
-  void testSearchNameOkPassTooLong() {
-    String normalName = "admin";
-    String longPass = "a".repeat(101);
-
-    User result = loginLogic.search(normalName, longPass);
-
-    assertThat(result).isNull();
-    verify(mockDao, never()).select(anyString(), anyString());
-  }
-
-  @Test
-  @DisplayName("名前とパスワードが両方制限ギリギリ（境界値）で成功すること")
-  void testSearchBothBoundaries() {
-    String maxName = "a".repeat(50);
-    String maxPass = "b".repeat(100);
-
-    User expectedUser = new User(1, maxName, maxPass);
-    when(mockDao.select(maxName, maxPass)).thenReturn(expectedUser);
-
-    User result = loginLogic.search(maxName, maxPass);
-
-    assertThat(result).isEqualTo(expectedUser);
-  }
-
-  @Test
-  @DisplayName("すべてのバリデーションをギリギリで通過してDAOが呼ばれること")
-  void testSearchCompleteFlow() {
-    String validName = "a";
-    String validPass = "b";
-
-    User expected = new User(1, validName, validPass);
-    when(mockDao.select(validName, validPass)).thenReturn(expected);
-
-    User result = loginLogic.search(validName, validPass);
+    User result = loginLogic.search(name, pass);
 
     assertThat(result).isEqualTo(expected);
   }
 
+  private static Stream<Arguments> provideSuccessPatterns() {
+    return Stream.of(Arguments.of("admin", "pass123"), Arguments.of("a", "b"),
+        Arguments.of("a".repeat(50), "b".repeat(100)));
+  }
+
+  // --- 異常系 (バリデーション) ---
+  @ParameterizedTest
+  @MethodSource("provideInvalidPatterns")
+  @DisplayName("不正な入力値でnullを返すこと（バリデーション網羅）")
+  void testSearchValidation(String name, String pass, String description) {
+    User result = loginLogic.search(name, pass);
+
+    assertThat(result).as(description).isNull();
+    verify(mockDao, never()).select(anyString(), anyString());
+  }
+
+  private static Stream<Arguments> provideInvalidPatterns() {
+    return Stream.of(Arguments.of(null, "pass", "nameがnull"), Arguments.of("", "pass", "nameが空文字"),
+        Arguments.of("   ", "pass", "nameが空白"), Arguments.of("a".repeat(51), "pass", "nameが長すぎる"),
+        Arguments.of("admin", null, "passがnull"), Arguments.of("admin", "", "passが空文字"),
+        Arguments.of("admin", "  ", "passが空白"),
+        Arguments.of("admin", "a".repeat(101), "passが長すぎる"));
+  }
 }
