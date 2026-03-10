@@ -81,7 +81,7 @@ public class Main extends HttpServlet {
     String text = request.getParameter("text");
     String action = request.getParameter("action");
 
-    TodoItemLogic todoItemLogic = new TodoItemLogic();
+    TodoItemLogic todoItemLogic = LogicFactory.createTodoItemLogic();
 
     if ("create".equals(action)) {
       TodoItem todoItem = todoItemLogic.create(text);
