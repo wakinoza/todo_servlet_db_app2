@@ -11,6 +11,18 @@ public class TodoItemLogic {
   // バリデーション用の定数
   private static final int MAX_TEXT_LENGTH = 100;
 
+  // フィールドとして定義
+  private final TodoItemDAO todoItemDao;
+
+  /**
+   * . コンストラクタ
+   *
+   * @param todoItemDao todoItemDAOクラスのインスタンス
+   */
+  public TodoItemLogic(TodoItemDAO todoItemDao) {
+    this.todoItemDao = todoItemDao;
+  }
+
   /**
    * . todoItemインスタンスを作成するめそっど
    *
@@ -40,7 +52,6 @@ public class TodoItemLogic {
     if (todoItem == null || todoItem.getText() == null) {
       return false;
     }
-    TodoItemDAO todoItemDao = new TodoItemDAO();
     return todoItemDao.insert(todoItem);
   }
 
@@ -54,7 +65,6 @@ public class TodoItemLogic {
     if (id < 0) {
       return false;
     }
-    TodoItemDAO todoItemDao = new TodoItemDAO();
     return todoItemDao.updateProgress(id);
   }
 
@@ -64,7 +74,6 @@ public class TodoItemLogic {
    * @return TodoItemインスタンスを格納したList
    */
   public List<TodoItem> getAllTodoItem() {
-    TodoItemDAO todoItemDao = new TodoItemDAO();
     return todoItemDao.selectAll();
   }
 }

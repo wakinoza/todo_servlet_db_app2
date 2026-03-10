@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.TodoItemLogic;
 import bean.TodoItem;
+import factory.LogicFactory;
 
 /**
  * . メイン画面の処理を司るサーブレット
@@ -38,7 +39,7 @@ public class Main extends HttpServlet {
       return;
     }
 
-    TodoItemLogic todoItemLogic = new TodoItemLogic();
+    TodoItemLogic todoItemLogic = LogicFactory.createTodoItemLogic();
     List<TodoItem> todoItemList = todoItemLogic.getAllTodoItem();
 
     if (todoItemList == null) {
