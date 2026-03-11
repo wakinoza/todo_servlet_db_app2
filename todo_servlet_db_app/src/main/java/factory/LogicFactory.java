@@ -11,6 +11,13 @@ import model.TodoItemLogic;
 public class LogicFactory {
 
   /**
+   * . プライベートコンストラクタ
+   */
+  private LogicFactory() {
+    throw new AssertionError("Utility class should not be instantiated.");
+  }
+
+  /**
    * . LoginLogicのインスタンスを生成して返す
    * 
    * @return LoginLogicのインスタンス
