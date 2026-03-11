@@ -19,6 +19,23 @@ import factory.LogicFactory;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  private LoginLogic loginLogic;
+
+  /**
+   * . Tomcat用のデフォルトコンストラクタ
+   */
+  public Login() {
+    this.loginLogic = null;
+  }
+
+  /**
+   * . テスト用のコンストラクタ
+   *
+   * @param logic モック化された LoginLogic
+   */
+  public Login(LoginLogic logic) {
+    this.loginLogic = logic;
+  }
 
   /**
    * . @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -33,7 +50,8 @@ public class Login extends HttpServlet {
 
     String name = request.getParameter("name");
     String pass = request.getParameter("pass");
-    LoginLogic logic = LogicFactory.createLoginLogic();
+    LoginLogic logic =
+        (this.loginLogic != null) ? this.loginLogic : LogicFactory.createLoginLogic();
     logic.search(name, pass);
     User loginUser = null;
     loginUser = logic.search(name, pass);
@@ -41,9 +59,9 @@ public class Login extends HttpServlet {
     if (loginUser != null) {
       HttpSession oldSession = request.getSession(false);
       if (oldSession != null) {
-        oldSession.invalidate(); // 古いセッションを破棄
+        oldSession.invalidate();
       }
-      HttpSession newSession = request.getSession(true); // 新しいIDで生成
+      HttpSession newSession = request.getSession(true);
       newSession.setAttribute("loginUser", loginUser);
 
       SecureRandom random = new SecureRandom();
