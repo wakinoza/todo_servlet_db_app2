@@ -1,6 +1,8 @@
 package util;
 
 import static org.assertj.core.api.Assertions.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,5 +26,19 @@ class PasswordUtilTest {
     String rawPassword = "correct_password";
     String hashed = PasswordUtil.hash(rawPassword);
     assertThat(PasswordUtil.check("wrong_password", hashed)).isFalse();
+  }
+
+  @Test
+  @DisplayName("privateコンストラクタを呼び出してインスタンス化をカバーする")
+  void testPrivateConstructor() throws Exception {
+    Constructor<PasswordUtil> constructor = PasswordUtil.class.getDeclaredConstructor();
+
+    constructor.setAccessible(true);
+
+    try {
+      constructor.newInstance();
+    } catch (InvocationTargetException e) {
+      assertThat(e.getCause()).isInstanceOf(AssertionError.class);
+    }
   }
 }
