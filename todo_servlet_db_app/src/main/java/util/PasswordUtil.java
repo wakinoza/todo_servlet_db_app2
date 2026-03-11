@@ -9,6 +9,13 @@ public class PasswordUtil {
   private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
   /**
+   * . プライベートコンストラクタ
+   */
+  private PasswordUtil() {
+    throw new AssertionError("Utility class should not be instantiated.");
+  }
+
+  /**
    * パスワードをハッシュ化するメソッド.
    * 
    * @param rawPassword ユーザー入力のパスワード
