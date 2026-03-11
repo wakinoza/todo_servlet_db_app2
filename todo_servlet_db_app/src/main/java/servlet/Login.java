@@ -52,7 +52,6 @@ public class Login extends HttpServlet {
     String pass = request.getParameter("pass");
     LoginLogic logic =
         (this.loginLogic != null) ? this.loginLogic : LogicFactory.createLoginLogic();
-    logic.search(name, pass);
     User loginUser = null;
     loginUser = logic.search(name, pass);
 
