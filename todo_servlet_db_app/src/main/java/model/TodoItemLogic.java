@@ -62,7 +62,7 @@ public class TodoItemLogic {
    * @return 更新が成功したかを示す真偽値
    */
   public boolean updateProgress(int id) {
-    if (id < 0) {
+    if (id <= 0) {
       return false;
     }
     return todoItemDao.updateProgress(id);
