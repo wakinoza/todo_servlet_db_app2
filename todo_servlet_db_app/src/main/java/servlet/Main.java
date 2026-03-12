@@ -19,6 +19,23 @@ import factory.LogicFactory;
 @WebServlet("/Main")
 public class Main extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  private TodoItemLogic todoItemLogic;
+
+  /**
+   * . Tomcat用コンストラクタ
+   */
+  public Main() {
+    this.todoItemLogic = null;
+  }
+
+  /**
+   * . テスト用コンストラクタ
+   *
+   * @param logic モック化された todoItemLogic
+   */
+  public Main(TodoItemLogic logic) {
+    this.todoItemLogic = logic;
+  }
 
   /**
    * . @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +56,8 @@ public class Main extends HttpServlet {
       return;
     }
 
-    TodoItemLogic todoItemLogic = LogicFactory.createTodoItemLogic();
+    TodoItemLogic todoItemLogic =
+        (this.todoItemLogic != null) ? this.todoItemLogic : LogicFactory.createTodoItemLogic();
     List<TodoItem> todoItemList = todoItemLogic.getAllTodoItem();
 
     if (todoItemList == null) {
@@ -81,7 +99,8 @@ public class Main extends HttpServlet {
     String text = request.getParameter("text");
     String action = request.getParameter("action");
 
-    TodoItemLogic todoItemLogic = LogicFactory.createTodoItemLogic();
+    TodoItemLogic todoItemLogic =
+        (this.todoItemLogic != null) ? this.todoItemLogic : LogicFactory.createTodoItemLogic();
 
     if ("create".equals(action)) {
       TodoItem todoItem = todoItemLogic.create(text);
