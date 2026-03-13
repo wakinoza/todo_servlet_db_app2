@@ -3,6 +3,8 @@
 本プロジェクトは、以前公開した「Security Update Edition」をベースに、JUnit 5 および AssertJ を導入し、単体テストを実装したアップデート版です。
 ロジックの正当性を担保するため、命令網羅（Instruction Coverage）100%を達成しました。
 
+<img width="943" height="258" alt="スクリーンショット 2026-03-13 151456" src="https://github.com/user-attachments/assets/c938fa45-e5e2-4afe-b103-c69ec1db2c9c" />
+
 ## 🧪 アップデートの概要：テスト駆動による品質改善
 実務で求められる「壊れにくいコード」を目指し、以下のテスト実装およびリファクタリングを行いました。
 
